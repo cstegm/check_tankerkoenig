@@ -16,6 +16,8 @@ CentOS 7
 yum install python36 python36-requests
 ```
 
+# CheckMK
+
 CheckMK usage:
 ```
 cd /opt/omd/sites/<YOUR_SITE>/local/lib/nagios/plugins/
@@ -30,6 +32,12 @@ Performance data:    process performance data
 ```
 
 Check interval:
-```
+```--apikey <YOUR API-KEY>
 Use a minimal check interval of 5 min. If you use a shorter interval your API key could be blocked.
 ```
+# CheckMK mrpe
+Another Option is to use the check_mk_agent and mrpe. Add the following Line to /etc/check_mk/mrpe.cfg:
+```
+Tanke_JET (interval=300) /your/path/to/check_tankerkoenig/check_tankerkoenig_api.py --apikey <YOUR API-KEY> --stationid 51d4b671-a095-1aa0-e100-80009459e03a
+```
+
