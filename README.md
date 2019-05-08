@@ -24,7 +24,7 @@ cd /opt/omd/sites/<YOUR_SITE>/local/lib/nagios/plugins/
 git clone git@github.com:cstegm/check_tankerkoenig.git
 ```
 
-Create a Classical active and passive Monitoring check in WATO:
+Create a "Classical active and passive Monitoring" check in WATO -> Host & Service Parameters -> Active checks (HTTP, TCP, etc.) :
 ```
 Service description: TK-D-freie_Ahnefeldstr
 Command line: 	     check_tankerkoenig/check_tankerkoenig_api.py --apikey <YOUR API-KEY> --stationid 404b23d9-3446-4b68-ab7e-3fdced82c872
