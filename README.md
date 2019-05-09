@@ -24,11 +24,29 @@ cd /opt/omd/sites/<YOUR_SITE>/local/lib/nagios/plugins/
 git clone git@github.com:cstegm/check_tankerkoenig.git
 ```
 
+Example:
+```
+~/local/lib/nagios/plugins/git/check_tankerkoenig$ ./check_tankerkoenig_api.py --apikey <YOUR API-KEY> --stationid 404b23d9-3446-4b68-ab7e-3fdced82c872 --warn_diesel 1.22 --crit_diesel 1.20 --warn_e5 1.35 --crit_e5 1.30
+
+TSB Tankstellenbetriebs-GmbH (Diesel is cheaper than 1.20 Euro!)|'e5'=1.429 'e10'=1.419 'diesel'=1.199
+```
+
 Create a "Classical active and passive Monitoring" check in WATO -> Host & Service Parameters -> Active checks (HTTP, TCP, etc.) :
 ```
 Service description: TK-D-freie_Ahnefeldstr
 Command line: 	     check_tankerkoenig/check_tankerkoenig_api.py --apikey <YOUR API-KEY> --stationid 404b23d9-3446-4b68-ab7e-3fdced82c872
 Performance data:    process performance data
+```
+
+You can use and combine thresholds for different gas types and define a maximum wait time for a result.
+```
+Service description: 	TK-D-freie_Ahnefeldstr
+Command line: 		git/check_tankerkoenig/check_tankerkoenig_api.py --apikey <YOUR API-KEY> --stationid 404b23d9-3446-4b68-ab7e-3fdced82c872 --warn_diesel 1.25 --crit_diesel 1.20 --warn_e5 1.35 --crit_e5 1.30
+Performance data: 		process performance data
+Check freshness: 	
+Expected update interval: 				5 minutes
+State in case of absent updates: 			UNKNOWN
+Plugin output in case of absent updates: 	Check result did not arrive in time
 ```
 
 Check interval:
