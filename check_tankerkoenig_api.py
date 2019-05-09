@@ -14,7 +14,7 @@
 #   check_tankerkoenig_api.py --apikey <YOUR API-KEY> --stationid 404b23d9-3446-4b68-ab7e-3fdced82c872
 #
 # Changelog:
-#   2019-05-10 CW <doc@snowheaven.de> - Add thresholds to graphs
+#   2019-05-10 CW <doc@snowheaven.de> - Add thresholds to graphs; help updated
 #   2019-05-09 CW <doc@snowheaven.de> - Show prices
 #   2019-05-08 CW <doc@snowheaven.de> - Added threshold function
 #
@@ -171,7 +171,7 @@ for price in prices.items():
     #print ( "threshold_text : %s" % threshold_text )
 
     # Build perfdata output ('e5'=1.429 'e10'=1.419 'diesel'=1.199)
-    metrics = metrics + "'"+ key + "'=" + value + ";" + warn + ";" + crit + ";0;2.5"
+    metrics = metrics + "'"+ key + "'=" + value + ";" + warn + ";" + crit + ";0;2.5 "
 
     # Build prices output
     output_prices = output_prices + key + ":" + value + " "
