@@ -14,6 +14,8 @@
 #   check_tankerkoenig_api.py --apikey <YOUR API-KEY> --stationid 404b23d9-3446-4b68-ab7e-3fdced82c872
 #
 # Changelog:
+#   2019-05-10 CW <doc@snowheaven.de> - Add thresholds to graphs; help updated
+#   2019-05-09 CW <doc@snowheaven.de> - Show prices
 #   2019-05-08 CW <doc@snowheaven.de> - Added threshold function
 #
 # ToDO:
@@ -37,7 +39,7 @@ except ImportError as e:
 exit_code = 0
 
 # define the program description
-text = 'This program uses the Tankerkoenig API to check prices from gas-stations'
+text = 'This program uses the Tankerkoenig API to check prices from gas-stations. Example: ./check_tankerkoenig_api.py --apikey <YOUR-API-KEY> --stationid 404b23d9-3446-4b68-ab7e-3fdced82c872 --warn_diesel 1.22 --crit_diesel 1.20 --warn_e5 1.35 --crit_e5 1.30'
 
 # initiate the parser with a description
 parser = argparse.ArgumentParser(description = text)
@@ -45,12 +47,12 @@ parser.add_argument("--apikey", help="specify the tankerkoenig api key. You can 
 parser.add_argument("--stationid", help="specify the stationid. You can find the stations here: https://creativecommons.tankerkoenig.de/TankstellenFinder/index.html")
 
 # Thresholds
-parser.add_argument("--warn_diesel", help="define your optional warning threshold for diesel")
-parser.add_argument("--crit_diesel", help="define your optional critical threshold for diesel")
-parser.add_argument("--warn_e5", help="define your optional warning threshold for super e5")
-parser.add_argument("--crit_e5", help="define your optional critical threshold for super e5")
-parser.add_argument("--warn_e10", help="define your optional warning threshold for super e10")
-parser.add_argument("--crit_e10", help="define your optional critical threshold for super e10")
+parser.add_argument("--warn_diesel", help="define your optional warning threshold for diesel (use . in price!)")
+parser.add_argument("--crit_diesel", help="define your optional critical threshold for diesel (use . in price!)")
+parser.add_argument("--warn_e5", help="define your optional warning threshold for super e5 (use . in price!)")
+parser.add_argument("--crit_e5", help="define your optional critical threshold for super e5 (use . in price!)")
+parser.add_argument("--warn_e10", help="define your optional warning threshold for super e10 (use . in price!)")
+parser.add_argument("--crit_e10", help="define your optional critical threshold for super e10 (use . in price!)")
 
 args = parser.parse_args()
 
@@ -126,8 +128,10 @@ j_price = r_price.json()
 # into {"e5": 1.419, "diesel": 1.219, "status": "open", "e10": 1.379}
 prices = next(iter(j_price["prices"].values()))
 
-metrics = ""
-hits = 0
+output_prices = ""
+metrics       = ""
+hits          = 0
+
 for price in prices.items():
     key   = price[0]
     value = str(price[1])
@@ -147,6 +151,9 @@ for price in prices.items():
     #print( "--------" )
 
     if (criticals.get(key) is not None) and (warnings.get(key) is not None):
+        warn = str(warnings.get(key))
+        crit = str(criticals.get(key))
+
         if float(value) < float(criticals.get(key)):
             threshold_text = "%s is cheaper than %s Euro!" % (key.title(), criticals.get(key))
             exit_code = 2
@@ -163,9 +170,11 @@ for price in prices.items():
 
     #print ( "threshold_text : %s" % threshold_text )
 
-    # Build perfdata output
-    metrics = metrics + "'"+ key + "'=" + value + " "
+    # Build perfdata output ('e5'=1.429 'e10'=1.419 'diesel'=1.199)
+    metrics = metrics + "'"+ key + "'=" + value + ";" + warn + ";" + crit + ";0;2.5 "
 
+    # Build prices output
+    output_prices = output_prices + key + ":" + value + " "
 
 # Generate output
 # If more than one threshold hits
@@ -175,7 +184,7 @@ if hits > 1:
 else:
     threshold_sum = threshold_text
 
-output_text = " " + "(" + threshold_sum + ")"
+output_text = " ( " + output_prices + ") " + threshold_sum + "!!!"
 
 
 if prices["status"] != "open":
