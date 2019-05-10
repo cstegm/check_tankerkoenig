@@ -246,11 +246,11 @@ for price in prices.items():
 
         if float(criticals.get(key)) is not None:
             if float(value) < float(criticals.get(key)):
-                threshold_text = "%s is cheaper than %s Euro!" % (key.title(), criticals.get(key))
+                threshold_text = "%s is cheaper than %s Euro! ==> %s Euro" % (key.title(), criticals.get(key), value)
                 exit_code = 2
                 hits = hits + 1
         elif float(value) < float(warnings.get(key)):
-            threshold_text = "%s is cheaper than %s Euro!" % (key.title(), warnings.get(key))
+            threshold_text = "%s is cheaper than %s Euro! ==> %s Euro" % (key.title(), warnings.get(key), value)
             exit_code = 1
             hits = hits + 1
         else:
