@@ -11,6 +11,34 @@ Help:
 
 ```
 
+Arguments:
+```
+  -h, --help            show this help message and exit
+  --apikey APIKEY       specify the tankerkoenig api key. You can get the Key
+                        here: https://creativecommons.tankerkoenig.de/
+  --stationid STATIONID
+                        specify the stationid. You can find the stations here:
+                        https://creativecommons.tankerkoenig.de/TankstellenFin
+                        der/index.html
+  --verbose             increase output verbosity
+  --offline             output demo data - no data is requested from api
+  --table               longoutput data as html table
+  --warn_diesel WARN_DIESEL
+                        define your optional warning threshold for diesel (use
+                        . in price!)
+  --crit_diesel CRIT_DIESEL
+                        define your optional critical threshold for diesel
+                        (use . in price!)
+  --warn_e5 WARN_E5     define your optional warning threshold for super e5
+                        (use . in price!)
+  --crit_e5 CRIT_E5     define your optional critical threshold for super e5
+                        (use . in price!)
+  --warn_e10 WARN_E10   define your optional warning threshold for super e10
+                        (use . in price!)
+  --crit_e10 CRIT_E10   define your optional critical threshold for super e10
+                        (use . in price!)
+```
+
 Example:
 ```
 ./check_tankerkoenig_api.py --apikey <your api key> --stationid 51d4b671-a095-1aa0-e100-80009459e03a
@@ -65,6 +93,12 @@ Tanke_JET (interval=300) /your/path/to/check_tankerkoenig/check_tankerkoenig_api
 ```
 
 Changelog
+- 2019-05-10 CW <doc@snowheaven.de> - added --table option - output longoutput data as html table
+- 2019-05-10 CW <doc@snowheaven.de> - moved prices into long output
+- 2019-05-10 CW <doc@snowheaven.de> - added --offline option - demo data instead of requesting api
+- 2019-05-10 CW <doc@snowheaven.de> - added --verbose option - more and more more output
+- 2019-05-10 CW <doc@snowheaven.de> - usage of --crit_diesel without --warn_diesel is now possible
+- 2019-05-10 CW <doc@snowheaven.de> - Fixed: no thresholds possible
 - 2019-05-10 CW <doc@snowheaven.de> - Add thresholds to graphs
 - 2019-05-09 CW <doc@snowheaven.de> - Show prices
 - 2019-05-08 CW <doc@snowheaven.de> - Added threshold function
