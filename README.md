@@ -61,6 +61,11 @@ yum install python36 python36-requests
 CheckMK usage:
 ```
 cd /opt/omd/sites/<YOUR_SITE>/local/lib/nagios/plugins/
+
+git clone https://github.com/cstegm/check_tankerkoenig.git
+
+or
+
 git clone git@github.com:cstegm/check_tankerkoenig.git
 ```
 
